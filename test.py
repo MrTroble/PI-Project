@@ -1,7 +1,7 @@
-import Robot
+import Robot as Robot
 import time
 
-robot = Robot()
+robot = Robot.Robot()
 
 time.sleep(1)
 
