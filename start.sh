@@ -8,6 +8,7 @@ echo $line
    then
      echo "Everthing up to date; Skipping GIT"
    else
+     echo ""
    fi
 done < ../git_log
 rm -f ../git_log
