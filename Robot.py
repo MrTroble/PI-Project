@@ -19,6 +19,8 @@ class Robot:
         # Setmode for pins
         GPIO.setmode(GPIO.BCM)
 
+        GPIO.cleanup()
+
         # Setup pins
         GPIO.setup([motor_af, motor_ab, motor_bf, motor_bb], GPIO.OUT)
 
