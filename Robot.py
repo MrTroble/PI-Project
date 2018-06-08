@@ -5,10 +5,8 @@ class Robot:
 
     # static class members
     Stop = 0
+    Go = 30
     Frequency = 20
-    DutyCycle = 20
-    MotorDC_A = 30
-    MotorDC_B = 30
 
     def __init__(self):
 
@@ -47,28 +45,32 @@ class Robot:
         self.pwm_BB.ChangeDutyCycle(Robot.Stop)
 
     def forward(self):
-        self.pwm_AF.ChangeDutyCycle(Robot.MotorDC_A)
+        self.pwm_AF.ChangeDutyCycle(Robot.Go)
         self.pwm_AB.ChangeDutyCycle(Robot.Stop)
-        self.pwm_BF.ChangeDutyCycle(Robot.MotorDC_B)
+        self.pwm_BF.ChangeDutyCycle(Robot.Go)
         self.pwm_BB.ChangeDutyCycle(Robot.Stop)
 
     def back(self):
         self.pwm_AF.ChangeDutyCycle(Robot.Stop)
-        self.pwm_AB.ChangeDutyCycle(Robot.MotorDC_A)
+        self.pwm_AB.ChangeDutyCycle(Robot.Go)
         self.pwm_BF.ChangeDutyCycle(Robot.Stop)
-        self.pwm_BB.ChangeDutyCycle(Robot.MotorDC_B)
+        self.pwm_BB.ChangeDutyCycle(Robot.Go)
 
     def left(self):
         self.pwm_AF.ChangeDutyCycle(Robot.Stop)
-        self.pwm_AB.ChangeDutyCycle(Robot.MotorDC_A)
-        self.pwm_BF.ChangeDutyCycle(Robot.MotorDC_B)
+        self.pwm_AB.ChangeDutyCycle(Robot.Go)
+        self.pwm_BF.ChangeDutyCycle(Robot.Go)
         self.pwm_BB.ChangeDutyCycle(Robot.Stop)
 
     def right(self):
-        self.pwm_AF.ChangeDutyCycle(Robot.MotorDC_A)
+        self.pwm_AF.ChangeDutyCycle(Robot.Go)
         self.pwm_AB.ChangeDutyCycle(Robot.Stop)
         self.pwm_BF.ChangeDutyCycle(Robot.Stop)
-        self.pwm_BB.ChangeDutyCycle(Robot.MotorDC_B)
+        self.pwm_BB.ChangeDutyCycle(Robot.Go)
 
     def close(self):
+        self.pwm_AF.stop()
+        self.pwm_AB.stop()
+        self.pwm_BF.stop()
+        self.pwm_BB.stop()
         GPIO.cleanup()
