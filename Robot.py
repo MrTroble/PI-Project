@@ -4,11 +4,11 @@ import RPi.GPIO as GPIO
 class Robot:
 
     # static class members
-    Stop: int = 0
-    Frequency: int = 20
-    DutyCycle: int = 20
-    MotorDC_A: int = 30
-    MotorDC_B: int = 30
+    Stop = 0
+    Frequency = 20
+    DutyCycle = 20
+    MotorDC_A = 30
+    MotorDC_B = 30
 
     def __init__(self):
 
