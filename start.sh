@@ -7,6 +7,7 @@ echo $line
    if [$line = "On branch master"] 
    then
      echo "Everthing up to date; Skipping GIT"
+   else
    fi
 done < ../git_log
 rm -f ../git_log
