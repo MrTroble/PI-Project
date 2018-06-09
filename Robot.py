@@ -141,7 +141,6 @@ class Robot:
         # If the sensor is too close,
         # it cannot detect distance
         if stop_time - start_time >= 0.04:
-            print("WTF")
             return 0
 
         # Speed of sound at 20 degrees celsius:
