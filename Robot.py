@@ -95,10 +95,17 @@ class Robot:
         start_time = time.time()
 
         while not GPIO.input(self._echo_pin):
-            time.sleep(0.0000000000000000001)
+            start_time = time.time()
 
+        while GPIO.input(self._echo_pin):
+            stop_time = time.time()
+
+            # If the sensor is too close, it cannot detect it
+            if stop_time - start_time >= 0.04:
+                stop_time = start_time
+                break
         # speed of sound at 20 degrees celsius 3434.6 cm/s
-        return start_time / time.time() * 3434.6 / 2
+        return (stop_time - start_time) * 3434.6 / 2
 
     # ===============================================
     # Close and destroy (Class needs to be reinitialized)
