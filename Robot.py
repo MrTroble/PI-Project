@@ -21,7 +21,7 @@ class Robot:
         self._echo_pin = echo_pin
         self._trigger_pin = trigger_pin
 
-        GPIO.setwarnings(False)
+        # GPIO.setwarnings(False)
         GPIO.cleanup()
 
         # Setmode for pins
