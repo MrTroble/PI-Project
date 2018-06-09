@@ -1,24 +1,17 @@
 import Robot as Robot
 import time
 
-robot = Robot.Robot()
+robot = Robot.Robot(4, 17, 18)
 
-time.sleep(1)
+try:
+    while True:
+        time.sleep(0.2)
 
-robot.forward()
+        distance = robot.get_distance()
+        if robot.is_on_line() and distance >= 10:
+            robot.forward()
+        else:
+            robot.stop()
 
-time.sleep(1)
-
-robot.back()
-
-time.sleep(1)
-
-robot.right()
-
-time.sleep(0.5)
-
-robot.left()
-
-time.sleep(0.5)
-
-robot.close()
+except KeyboardInterrupt:
+    robot.close()
