@@ -132,16 +132,19 @@ class Robot:
         time.sleep(0.00001)
         GPIO.output(self._trigger_pin, False)
 
-        # Save start/stop time and idle
+        # Save start time and idle
         start_time = time.time()
         while not GPIO.input(self._echo_pin):
             start_time = time.time()
-        stop_time = time.time()
 
-        # If the sensor is too close,
-        # it cannot detect distance
-        if stop_time - start_time >= 0.04:
-            return 0
+        # Save stop time and idle
+        stop_time = time.time()
+        while not GPIO.input(self._echo_pin):
+            stop_time = time.time()
+            # If the sensor is too close,
+            # it cannot detect distance
+            if stop_time - start_time >= 0.04:
+                return 0
 
         # Speed of sound at 20 degrees celsius:
         # 3434.6 cm/s
