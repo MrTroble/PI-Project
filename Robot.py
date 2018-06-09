@@ -139,7 +139,7 @@ class Robot:
 
         # Save stop time and idle
         stop_time = time.time()
-        while not GPIO.input(self._echo_pin):
+        while GPIO.input(self._echo_pin):
             stop_time = time.time()
             # If the sensor is too close,
             # it cannot detect distance
