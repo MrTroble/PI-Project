@@ -1,7 +1,7 @@
 import Robot as Robot
 import time
 
-robot = Robot.Robot(4, 17, 18)
+robot = Robot.Robot(4, 24, 23)
 
 try:
     while True:
