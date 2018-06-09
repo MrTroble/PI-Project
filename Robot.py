@@ -2,114 +2,154 @@ import RPi.GPIO as GPIO
 import time
 
 
+# @singleton
 class Robot:
 
     # Static class members
-    Stop = 0
+    # Thees values shouldn't change
+    # (There are some circumstances)
     Go = 30
     Frequency = 20
+    Stop = 0
 
-    def __init__(self, light_sensor_pin, echo_pin, trigger_pin):
+    # Initializes a new instance
+    #
+    # Setup all pins need for
+    # the robotic edukit from camjam
+    #
+    # Initializes PWM for the motors
+    #
+    # Param:
+    #    light_sensor_pin:
+    #       Pin ID of black sensor
+    #    echo_pin:
+    #       Pin ID of echo pin
+    #    trigger_pin:
+    #       Pin ID to trigger echo
+    def __init__(self,
+                 light_sensor_pin,
+                 echo_pin,
+                 trigger_pin):
 
-        # Pin vars
+        # Initialize values
+        self._light_sensor_pin = light_sensor_pin
+        self._echo_pin = echo_pin
+        self._trigger_pin = trigger_pin
+
+        # Pin constants
         motor_af = 10
         motor_ab = 9
         motor_bf = 8
         motor_bb = 7
 
-        self._light_sensor_pin = light_sensor_pin
-        self._echo_pin = echo_pin
-        self._trigger_pin = trigger_pin
-
-        # Setmode for pins
+        # Setmode for pins and disable warnings
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
 
         # Setup pins
-        GPIO.setup([motor_af, motor_ab, motor_bf, motor_bb, trigger_pin], GPIO.OUT)
+        GPIO.setup([motor_af,
+                    motor_ab,
+                    motor_bf,
+                    motor_bb,
+                    trigger_pin], GPIO.OUT)
         GPIO.setup([light_sensor_pin, echo_pin], GPIO.IN)
 
-        # Setup PWM for pins
+        # Initialize PWM for pins
         self._pwm_AF = GPIO.PWM(motor_af, Robot.Frequency)
         self._pwm_AB = GPIO.PWM(motor_ab, Robot.Frequency)
         self._pwm_BF = GPIO.PWM(motor_bf, Robot.Frequency)
         self._pwm_BB = GPIO.PWM(motor_bb, Robot.Frequency)
 
-        # Start duty cycle with none
+        # Start duty cycle with zero
         self._pwm_AF.start(Robot.Stop)
         self._pwm_AB.start(Robot.Stop)
         self._pwm_BF.start(Robot.Stop)
         self._pwm_BB.start(Robot.Stop)
 
+        # Disable output for trigger
         GPIO.output(trigger_pin, False)
 
-    # ===============================================
+    # ===================================================
     # Robot control section
-    # ===============================================
+    # ===================================================
 
+    # Stops the duty cycles of all motors
     def stop(self):
         self._pwm_AF.ChangeDutyCycle(Robot.Stop)
         self._pwm_AB.ChangeDutyCycle(Robot.Stop)
         self._pwm_BF.ChangeDutyCycle(Robot.Stop)
         self._pwm_BB.ChangeDutyCycle(Robot.Stop)
 
+    # Starts the duty cycle for Forward A and B
+    # Stops all others
     def forward(self):
         self._pwm_AF.ChangeDutyCycle(Robot.Go)
         self._pwm_AB.ChangeDutyCycle(Robot.Stop)
         self._pwm_BF.ChangeDutyCycle(Robot.Go)
         self._pwm_BB.ChangeDutyCycle(Robot.Stop)
 
+    # Starts the duty cycle for Backwards A and B
+    # Stops all others
     def back(self):
         self._pwm_AF.ChangeDutyCycle(Robot.Stop)
         self._pwm_AB.ChangeDutyCycle(Robot.Go)
         self._pwm_BF.ChangeDutyCycle(Robot.Stop)
         self._pwm_BB.ChangeDutyCycle(Robot.Go)
 
+    # Starts the duty cycle for
+    # Backwards A,
+    # Forwards B
+    #
+    # Stops all others
     def left(self):
         self._pwm_AF.ChangeDutyCycle(Robot.Stop)
         self._pwm_AB.ChangeDutyCycle(Robot.Go)
         self._pwm_BF.ChangeDutyCycle(Robot.Go)
         self._pwm_BB.ChangeDutyCycle(Robot.Stop)
 
+    # Starts the duty cycle for
+    # Forwards A,
+    # Backwards B
+    #
+    # Stops all others
     def right(self):
         self._pwm_AF.ChangeDutyCycle(Robot.Go)
         self._pwm_AB.ChangeDutyCycle(Robot.Stop)
         self._pwm_BF.ChangeDutyCycle(Robot.Stop)
         self._pwm_BB.ChangeDutyCycle(Robot.Go)
 
-    # ===============================================
-    # Sensor inputs
-    # ===============================================
+    # ===================================================
+    # Sensor input section
+    # ===================================================
 
+    # Checks the light sensor
     def is_on_line(self):
         return not GPIO.input(self._light_sensor_pin)
 
-    def trigger_echo(self):
+    def get_distance(self):
+        # Trigger echo
         GPIO.output(self._trigger_pin, True)
         time.sleep(0.00001)
         GPIO.output(self._trigger_pin, False)
 
-    def get_distance(self):
-        self.trigger_echo()
+        # Save start/stop time and idle
         start_time = time.time()
-
         while not GPIO.input(self._echo_pin):
-            start_time = time.time()
+            time.sleep(0.00000000000001)
+        stop_time = time.time()
 
-        while GPIO.input(self._echo_pin):
-            stop_time = time.time()
+        # If the sensor is too close,
+        # it cannot detect distance
+        if stop_time - start_time >= 0.04:
+            return 0
 
-            # If the sensor is too close, it cannot detect it
-            if stop_time - start_time >= 0.04:
-                stop_time = start_time
-                break
-
-        # Speed of sound at 20 degrees celsius 3434.6 cm/s
+        # Speed of sound at 20 degrees celsius:
+        # 3434.6 cm/s
         return (stop_time - start_time) * 3434.6 / 2
 
-    # ===============================================
-    # Close and destroy (Class needs to be reinitialized)
-    # ===============================================
+    # ===================================================
+    # End section
+    # ===================================================
 
     def close(self):
         self._pwm_AF.stop()
