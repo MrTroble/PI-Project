@@ -123,9 +123,18 @@ class Robot:
     # ===================================================
 
     # Checks the light sensor
+    #
+    # return: bool
+    #    true if it sees black, false other wise
     def is_on_line(self):
         return not GPIO.input(self._light_sensor_pin)
 
+    # Triggers an echo of the echo sensor
+    # Calculates the time need by the echo
+    # Calculates the distance with the time
+    #
+    # return: float
+    #    the distance in cm (at 20 degrees celsius)
     def get_distance(self):
         # Trigger echo
         GPIO.output(self._trigger_pin, True)
@@ -154,6 +163,10 @@ class Robot:
     # End section
     # ===================================================
 
+    # This stops all PWM's and
+    # cleans all GPIO stuff.
+    #
+    # The class should be reinitialized after calling it
     def close(self):
         self._pwm_AF.stop()
         self._pwm_AB.stop()
