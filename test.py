@@ -3,7 +3,7 @@ import time
 
 print("Initialize robot API")
 # Initialize Robot.py API
-robot = Robot.Robot(4, 24, 25)
+robot = Robot.Robot(4, 24, 22)
 print("Finished initializing")
 
 # Test logic
