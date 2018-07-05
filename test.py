@@ -1,11 +1,14 @@
 import Robot as Robot
 import time
 
+print("Initialize robot API")
 # Initialize Robot.py API
 robot = Robot.Robot(4, 24, 23)
+print("Finished initializing")
 
 # Test logic
 try:
+    print("Start loop")
     while True:
         time.sleep(0.1)
 
