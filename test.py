@@ -12,6 +12,7 @@ try:
     while True:
         time.sleep(0.1)
 
+        print("Send echo")
         distance = robot.get_distance()
         print(distance)
         if robot.is_on_line() and distance >= 10:
