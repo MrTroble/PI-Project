@@ -7,7 +7,7 @@ robot = Robot.Robot(4, 23, 22)
 # Test logic
 try:
     while True:
-        time.sleep(0.1)
+        time.sleep(0.5)
 
         distance = robot.get_distance()
         print(distance)

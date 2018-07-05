@@ -157,7 +157,7 @@ class Robot:
 
         # Speed of sound at 20 degrees celsius:
         # 3434.6 cm/s
-        return (stop_time - start_time) * 3434.6 / 2
+        return (stop_time - start_time) / 2 * 34346
 
     # ===================================================
     # End section
