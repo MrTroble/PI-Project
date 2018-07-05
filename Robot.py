@@ -146,7 +146,6 @@ class Robot:
         # Save start time and idle
         start_time = time.time()
         while not GPIO.input(self._echo_pin):
-            print("Looping values")
             start_time = time.time()
 
         print("Pass start loop")
