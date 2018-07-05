@@ -11,7 +11,7 @@ try:
 
         distance = robot.get_distance()
         print(distance)
-        if robot.is_on_line() and distance >= 1:
+        if robot.is_on_line() and distance >= 10:
             robot.forward()
         else:
             robot.stop()
