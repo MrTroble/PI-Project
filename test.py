@@ -1,21 +1,17 @@
 import Robot as Robot
 import time
 
-print("Initialize robot API")
 # Initialize Robot.py API
 robot = Robot.Robot(4, 23, 22)
-print("Finished initializing")
 
 # Test logic
 try:
-    print("Start loop")
     while True:
         time.sleep(0.1)
 
-        print("Send echo")
         distance = robot.get_distance()
         print(distance)
-        if robot.is_on_line() and distance >= 10:
+        if robot.is_on_line() and distance >= 1:
             robot.forward()
         else:
             robot.stop()
