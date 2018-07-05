@@ -14,7 +14,7 @@ class Robot:
 
     # Initializes a new instance
     #
-    # Setup all pins need for
+    # Setup all pins needed for
     # the robotic edukit from camjam
     #
     # Initializes PWM for the motors

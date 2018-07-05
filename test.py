@@ -2,7 +2,7 @@ import Robot as Robot
 import time
 
 # Initialize Robot.py API
-robot = Robot.Robot(4, 23, 24)
+robot = Robot.Robot(4, 24, 23)
 
 # Test logic
 try:
