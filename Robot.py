@@ -44,7 +44,7 @@ class Robot:
 
         # Setmode for pins and disable warnings
         GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
+        GPIO.setwarnings(True)
 
         # Setup pins
         GPIO.setup([motor_af,
