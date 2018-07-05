@@ -141,7 +141,7 @@ class Robot:
         time.sleep(0.00001)
         GPIO.output(self._trigger_pin, False)
 
-        print("echo " + time.time())
+        print("echo " + str(time.time()))
 
         # Save start time and idle
         start_time = time.time()
